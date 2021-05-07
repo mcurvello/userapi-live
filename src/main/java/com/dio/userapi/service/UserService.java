@@ -1,5 +1,8 @@
 package com.dio.userapi.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,4 +34,13 @@ public class UserService {
 				.message("Created user wit ID * " + savedUser.getId())
 				.build();
 	}
+
+	public List<UserDTO> listAll() {
+		List<User> allUser = userRepository.findAll();
+		return allUser.stream()
+				.map(userMapper::toDTO)
+				.collect(Collectors.toList());
+	}
+
+	
 }

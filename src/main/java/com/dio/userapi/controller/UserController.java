@@ -1,9 +1,12 @@
 package com.dio.userapi.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,5 +33,10 @@ public class UserController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public MessageResponseDTO createUser(@RequestBody @Valid UserDTO userDTO) {
 		return userService.createUser(userDTO);
+	}
+	
+	@GetMapping
+	public List<UserDTO> listAll() {
+		return userService.listAll();
 	}
 }
