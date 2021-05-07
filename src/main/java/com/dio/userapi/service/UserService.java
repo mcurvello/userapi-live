@@ -3,6 +3,8 @@ package com.dio.userapi.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +32,7 @@ public class UserService {
 		User userToSave = userMapper.toModel(userDTO);
 		
 		User savedUser = userRepository.save(userToSave);
-		return MessageResponseDTO
-				.builder()
-				.message("Created user wit ID * " + savedUser.getId())
-				.build();
+		return createMessageResponse(savedUser.getId(), "Created user with ID ");
 	}
 
 	public List<UserDTO> listAll() {
@@ -58,6 +57,23 @@ public class UserService {
 		userRepository.deleteById(id);
 	}
 
+	public MessageResponseDTO updateById(Long id, @Valid UserDTO userDTO) throws UserNotFoundException {
+
+		verifyIfExists(id);
+		
+		User userToUpdate = userMapper.toModel(userDTO);
+		
+		User updatedUser = userRepository.save(userToUpdate);
+		return createMessageResponse(updatedUser.getId(), "Updated user with ID ");
+	}
+
+	private MessageResponseDTO createMessageResponse(Long id, String message) {
+		return MessageResponseDTO
+				.builder()
+				.message(message + id)
+				.build();
+	}
+	
 	private User verifyIfExists(Long id) throws UserNotFoundException {
 		return userRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException(id));
