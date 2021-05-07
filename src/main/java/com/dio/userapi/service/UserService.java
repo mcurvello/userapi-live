@@ -11,6 +11,7 @@ import com.dio.userapi.dto.response.MessageResponseDTO;
 import com.dio.userapi.entity.User;
 import com.dio.userapi.mapper.UserMapper;
 import com.dio.userapi.repository.UserRepository;
+import com.dio.userapi.service.exception.UserNotFoundException;
 
 @Service
 public class UserService {
@@ -40,6 +41,13 @@ public class UserService {
 		return allUser.stream()
 				.map(userMapper::toDTO)
 				.collect(Collectors.toList());
+	}
+
+	public UserDTO findById(Long id) throws UserNotFoundException {
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new UserNotFoundException(id));
+		
+		return userMapper.toDTO(user);
 	}
 
 	
