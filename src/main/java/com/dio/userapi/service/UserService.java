@@ -37,6 +37,7 @@ public class UserService {
 	}
 
 	public List<UserDTO> listAll() {
+		
 		List<User> allUser = userRepository.findAll();
 		return allUser.stream()
 				.map(userMapper::toDTO)
@@ -44,11 +45,21 @@ public class UserService {
 	}
 
 	public UserDTO findById(Long id) throws UserNotFoundException {
-		User user = userRepository.findById(id)
-				.orElseThrow(() -> new UserNotFoundException(id));
+		
+		User user = verifyIfExists(id);
 		
 		return userMapper.toDTO(user);
 	}
 
-	
+	public void delete(Long id) throws UserNotFoundException {
+		
+		verifyIfExists(id);
+		
+		userRepository.deleteById(id);
+	}
+
+	private User verifyIfExists(Long id) throws UserNotFoundException {
+		return userRepository.findById(id)
+				.orElseThrow(() -> new UserNotFoundException(id));
+	}
 }
