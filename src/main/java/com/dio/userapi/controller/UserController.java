@@ -21,18 +21,15 @@ import com.dio.userapi.dto.response.MessageResponseDTO;
 import com.dio.userapi.service.UserService;
 import com.dio.userapi.service.exception.UserNotFoundException;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/api/v1/user")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
 	private UserService userService;
 	
-	
-	@Autowired
-	public UserController(UserService userService) {
-		this.userService = userService;
-	}
-
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public MessageResponseDTO createUser(@RequestBody @Valid UserDTO userDTO) {

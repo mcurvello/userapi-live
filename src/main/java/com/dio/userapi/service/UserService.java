@@ -15,18 +15,16 @@ import com.dio.userapi.mapper.UserMapper;
 import com.dio.userapi.repository.UserRepository;
 import com.dio.userapi.service.exception.UserNotFoundException;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService {
 
 	private UserRepository userRepository;
 	
 	private final UserMapper userMapper = UserMapper.INSTANCE;
 
-	@Autowired
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
-	
 	public MessageResponseDTO createUser(UserDTO userDTO) {
 		
 		User userToSave = userMapper.toModel(userDTO);
