@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -46,6 +47,11 @@ public class UserController {
 	@GetMapping("/{id}")
 	public UserDTO findById(@PathVariable Long id) throws UserNotFoundException {
 		return userService.findById(id);
+	}
+	
+	@PutMapping("/{id}")
+	public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO) throws UserNotFoundException {
+		return userService.updateById(id, userDTO);
 	}
 	
 	@DeleteMapping("/{id}")
